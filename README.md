@@ -69,6 +69,8 @@ The following variables can be customized:
 - `aws_region`: AWS region to deploy resources (default: "us-west-2")
 - `vpc_cidr`: CIDR block for the VPC (default: "10.0.0.0/16")
 - `project_name`: Name of the project, used for resource naming (default: "network-basic")
+- `public_subnet_count`: Number of public subnets to create (default: 2)
+- `private_subnet_count`: Number of private subnets to create (default: 2)
 
 To override any of these variables, you can either:
 
@@ -80,8 +82,8 @@ To override any of these variables, you can either:
 The configuration creates the following network layout:
 
 - VPC: Uses the specified CIDR block
-- Public Subnets: First two subnets in the VPC CIDR range
-- Private Subnets: Second two subnets in the VPC CIDR range
+- Public Subnets: Number of subnets specified by `public_subnet_count` in the VPC CIDR range
+- Private Subnets: Number of subnets specified by `private_subnet_count` in the VPC CIDR range
 - NAT Gateway: Placed in the first public subnet
 - Internet Gateway: Attached to the VPC
 
