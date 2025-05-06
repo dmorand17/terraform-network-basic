@@ -3,8 +3,8 @@
 This Terraform configuration creates a basic VPC setup in AWS with the following components:
 
 - VPC with configurable CIDR block
-- 2 Public Subnets
-- 2 Private Subnets
+- 'n' Public Subnets
+- 'n' Private Subnets
 - Internet Gateway
 - NAT Gateway (for private subnet internet access)
 - Appropriate route tables and associations
@@ -65,20 +65,22 @@ terraform apply
 ## Variables
 
 <!-- BEGIN_TF_DOCS -->
+
 ## Inputs
 
-| Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
-| <a name="input_aws_region"></a> [aws\_region](#input\_aws\_region) | AWS region to deploy resources | `string` | `"us-east-1"` | no |
-| <a name="input_private_subnet_count"></a> [private\_subnet\_count](#input\_private\_subnet\_count) | Number of private subnets to create | `number` | `2` | no |
-| <a name="input_project_name"></a> [project\_name](#input\_project\_name) | Name of the project, used for resource naming | `string` | `"network-basic"` | no |
-| <a name="input_public_subnet_count"></a> [public\_subnet\_count](#input\_public\_subnet\_count) | Number of public subnets to create | `number` | `2` | no |
-| <a name="input_tags"></a> [tags](#input\_tags) | A map of tags to assign to the resources | `map(string)` | <pre>{<br/>  "environment": "dev",<br/>  "managed-by": "terraform",<br/>  "project": "network-basic"<br/>}</pre> | no |
-| <a name="input_vpc_cidr"></a> [vpc\_cidr](#input\_vpc\_cidr) | CIDR block for the VPC | `string` | `"10.0.0.0/16"` | no |
+| Name                                                                                          | Description                                   | Type          | Default                                                                                                       | Required |
+| --------------------------------------------------------------------------------------------- | --------------------------------------------- | ------------- | ------------------------------------------------------------------------------------------------------------- | :------: |
+| <a name="input_aws_region"></a> [aws_region](#input_aws_region)                               | AWS region to deploy resources                | `string`      | `"us-east-1"`                                                                                                 |    no    |
+| <a name="input_private_subnet_count"></a> [private_subnet_count](#input_private_subnet_count) | Number of private subnets to create           | `number`      | `2`                                                                                                           |    no    |
+| <a name="input_project_name"></a> [project_name](#input_project_name)                         | Name of the project, used for resource naming | `string`      | `"network-basic"`                                                                                             |    no    |
+| <a name="input_public_subnet_count"></a> [public_subnet_count](#input_public_subnet_count)    | Number of public subnets to create            | `number`      | `2`                                                                                                           |    no    |
+| <a name="input_tags"></a> [tags](#input_tags)                                                 | A map of tags to assign to the resources      | `map(string)` | <pre>{<br/> "environment": "dev",<br/> "managed-by": "terraform",<br/> "project": "network-basic"<br/>}</pre> |    no    |
+| <a name="input_vpc_cidr"></a> [vpc_cidr](#input_vpc_cidr)                                     | CIDR block for the VPC                        | `string`      | `"10.0.0.0/16"`                                                                                               |    no    |
 
 ## Outputs
 
 No outputs.
+
 <!-- END_TF_DOCS -->
 
 To override any of these variables, you can either:
@@ -106,10 +108,6 @@ terraform destroy
 
 Note: The S3 bucket and DynamoDB table created for state management will need to be deleted manually if you want to remove them.
 
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
 ## Contributing
 
 1. Fork the repository
@@ -119,3 +117,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 5. Open a Pull Request
 
 Please make sure to update tests as appropriate and adhere to the existing code style.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
