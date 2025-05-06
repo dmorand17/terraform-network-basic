@@ -64,13 +64,22 @@ terraform apply
 
 ## Variables
 
-The following variables can be customized:
+<!-- BEGIN_TF_DOCS -->
+## Inputs
 
-- `aws_region`: AWS region to deploy resources (default: "us-west-2")
-- `vpc_cidr`: CIDR block for the VPC (default: "10.0.0.0/16")
-- `project_name`: Name of the project, used for resource naming (default: "network-basic")
-- `public_subnet_count`: Number of public subnets to create (default: 2)
-- `private_subnet_count`: Number of private subnets to create (default: 2)
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| <a name="input_aws_region"></a> [aws\_region](#input\_aws\_region) | AWS region to deploy resources | `string` | `"us-east-1"` | no |
+| <a name="input_private_subnet_count"></a> [private\_subnet\_count](#input\_private\_subnet\_count) | Number of private subnets to create | `number` | `2` | no |
+| <a name="input_project_name"></a> [project\_name](#input\_project\_name) | Name of the project, used for resource naming | `string` | `"network-basic"` | no |
+| <a name="input_public_subnet_count"></a> [public\_subnet\_count](#input\_public\_subnet\_count) | Number of public subnets to create | `number` | `2` | no |
+| <a name="input_tags"></a> [tags](#input\_tags) | A map of tags to assign to the resources | `map(string)` | <pre>{<br/>  "environment": "dev",<br/>  "managed-by": "terraform",<br/>  "project": "network-basic"<br/>}</pre> | no |
+| <a name="input_vpc_cidr"></a> [vpc\_cidr](#input\_vpc\_cidr) | CIDR block for the VPC | `string` | `"10.0.0.0/16"` | no |
+
+## Outputs
+
+No outputs.
+<!-- END_TF_DOCS -->
 
 To override any of these variables, you can either:
 
