@@ -51,6 +51,7 @@ resource "aws_internet_gateway" "main" {
 
 # NAT Gateway (regional, auto mode — AWS manages EIPs and AZ expansion)
 resource "aws_nat_gateway" "main" {
+  vpc_id            = aws_vpc.main.id
   availability_mode = "regional"
 
   tags = merge(var.tags, {
