@@ -1,9 +1,3 @@
-variable "aws_region" {
-  description = "AWS region to deploy resources"
-  type        = string
-  default     = "us-east-1"
-}
-
 variable "vpc_cidr" {
   description = "CIDR block for the VPC"
   type        = string
@@ -17,12 +11,9 @@ variable "project_name" {
 }
 
 variable "tags" {
-  description = "A map of tags to assign to the resources. The `project` tag is added automatically from `project_name`."
+  description = "Additional tags applied to resources created by this module. Caller's provider default_tags are usually preferred for cross-cutting tags."
   type        = map(string)
-  default = {
-    environment = "dev"
-    managed-by  = "terraform"
-  }
+  default     = {}
 }
 
 variable "public_subnet_count" {

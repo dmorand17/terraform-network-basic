@@ -1,49 +1,49 @@
 output "vpc_id" {
   description = "ID of the VPC"
-  value       = module.network.vpc_id
+  value       = aws_vpc.main.id
 }
 
 output "vpc_cidr_block" {
   description = "CIDR block of the VPC"
-  value       = module.network.vpc_cidr_block
+  value       = aws_vpc.main.cidr_block
 }
 
 output "public_subnet_ids" {
   description = "IDs of the public subnets"
-  value       = module.network.public_subnet_ids
+  value       = aws_subnet.public[*].id
 }
 
 output "private_subnet_ids" {
   description = "IDs of the private subnets"
-  value       = module.network.private_subnet_ids
+  value       = aws_subnet.private[*].id
 }
 
 output "public_route_table_id" {
   description = "ID of the public route table"
-  value       = module.network.public_route_table_id
+  value       = aws_route_table.public.id
 }
 
 output "private_route_table_id" {
   description = "ID of the private route table"
-  value       = module.network.private_route_table_id
+  value       = aws_route_table.private.id
 }
 
 output "internet_gateway_id" {
   description = "ID of the Internet Gateway"
-  value       = module.network.internet_gateway_id
+  value       = aws_internet_gateway.main.id
 }
 
 output "nat_gateway_id" {
   description = "ID of the regional NAT Gateway"
-  value       = module.network.nat_gateway_id
+  value       = aws_nat_gateway.main.id
 }
 
 output "s3_vpc_endpoint_id" {
   description = "ID of the S3 gateway VPC endpoint"
-  value       = module.network.s3_vpc_endpoint_id
+  value       = aws_vpc_endpoint.s3.id
 }
 
 output "dynamodb_vpc_endpoint_id" {
   description = "ID of the DynamoDB gateway VPC endpoint"
-  value       = module.network.dynamodb_vpc_endpoint_id
+  value       = aws_vpc_endpoint.dynamodb.id
 }
