@@ -36,3 +36,15 @@ variable "private_subnet_count" {
   type        = number
   default     = 2
 }
+
+variable "interface_vpc_endpoints" {
+  description = "Service short names for Interface VPC endpoints created in the private subnets (e.g. ec2, ssm). Set to [] to create none."
+  type        = list(string)
+  default     = ["ec2", "ssmmessages", "ec2messages", "ssm"]
+}
+
+variable "create_gateway_endpoints" {
+  description = "Create the S3 and DynamoDB Gateway VPC endpoints on the private route table. Set to false to skip them."
+  type        = bool
+  default     = true
+}

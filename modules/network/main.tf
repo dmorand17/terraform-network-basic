@@ -106,6 +106,8 @@ resource "aws_route_table_association" "private" {
 
 # Gateway VPC Endpoints (S3, DynamoDB) — attached to the private route table
 resource "aws_vpc_endpoint" "s3" {
+  count = var.create_gateway_endpoints ? 1 : 0
+
   vpc_id            = aws_vpc.main.id
   service_name      = "com.amazonaws.${data.aws_region.current.region}.s3"
   vpc_endpoint_type = "Gateway"
@@ -117,6 +119,8 @@ resource "aws_vpc_endpoint" "s3" {
 }
 
 resource "aws_vpc_endpoint" "dynamodb" {
+  count = var.create_gateway_endpoints ? 1 : 0
+
   vpc_id            = aws_vpc.main.id
   service_name      = "com.amazonaws.${data.aws_region.current.region}.dynamodb"
   vpc_endpoint_type = "Gateway"
@@ -124,5 +128,54 @@ resource "aws_vpc_endpoint" "dynamodb" {
 
   tags = merge(var.tags, {
     Name = "${var.project_name}-dynamodb-endpoint"
+  })
+}
+
+# Preserve state for the gateway endpoints when the count meta-argument was
+# introduced (single instance -> indexed instance).
+moved {
+  from = aws_vpc_endpoint.s3
+  to   = aws_vpc_endpoint.s3[0]
+}
+
+moved {
+  from = aws_vpc_endpoint.dynamodb
+  to   = aws_vpc_endpoint.dynamodb[0]
+}
+
+# Interface VPC Endpoints (EC2, SSM, ...) — private DNS enabled so instances
+# reach AWS APIs over the private subnets instead of the NAT gateway.
+resource "aws_security_group" "vpc_endpoints" {
+  count = length(var.interface_vpc_endpoints) > 0 ? 1 : 0
+
+  name        = "${var.project_name}-vpc-endpoints"
+  description = "HTTPS from the VPC to interface VPC endpoints"
+  vpc_id      = aws_vpc.main.id
+
+  ingress {
+    description = "HTTPS from within the VPC"
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = [aws_vpc.main.cidr_block]
+  }
+
+  tags = merge(var.tags, {
+    Name = "${var.project_name}-vpc-endpoints"
+  })
+}
+
+resource "aws_vpc_endpoint" "interface" {
+  for_each = toset(var.interface_vpc_endpoints)
+
+  vpc_id              = aws_vpc.main.id
+  service_name        = "com.amazonaws.${data.aws_region.current.region}.${each.value}"
+  vpc_endpoint_type   = "Interface"
+  private_dns_enabled = true
+  subnet_ids          = aws_subnet.private[*].id
+  security_group_ids  = [aws_security_group.vpc_endpoints[0].id]
+
+  tags = merge(var.tags, {
+    Name = "${var.project_name}-${each.value}-endpoint"
   })
 }
