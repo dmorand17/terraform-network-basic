@@ -47,3 +47,13 @@ output "dynamodb_vpc_endpoint_id" {
   description = "ID of the DynamoDB gateway VPC endpoint"
   value       = module.network.dynamodb_vpc_endpoint_id
 }
+
+output "interface_vpc_endpoint_ids" {
+  description = "Map of service short name to Interface VPC endpoint ID"
+  value       = module.network.interface_vpc_endpoint_ids
+}
+
+output "vpc_endpoints_security_group_id" {
+  description = "ID of the security group attached to the interface VPC endpoints"
+  value       = module.network.vpc_endpoints_security_group_id
+}

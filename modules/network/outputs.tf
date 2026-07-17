@@ -39,11 +39,21 @@ output "nat_gateway_id" {
 }
 
 output "s3_vpc_endpoint_id" {
-  description = "ID of the S3 gateway VPC endpoint"
-  value       = aws_vpc_endpoint.s3.id
+  description = "ID of the S3 gateway VPC endpoint (null when gateway endpoints are disabled)"
+  value       = try(aws_vpc_endpoint.s3[0].id, null)
 }
 
 output "dynamodb_vpc_endpoint_id" {
-  description = "ID of the DynamoDB gateway VPC endpoint"
-  value       = aws_vpc_endpoint.dynamodb.id
+  description = "ID of the DynamoDB gateway VPC endpoint (null when gateway endpoints are disabled)"
+  value       = try(aws_vpc_endpoint.dynamodb[0].id, null)
+}
+
+output "interface_vpc_endpoint_ids" {
+  description = "Map of service short name to Interface VPC endpoint ID"
+  value       = { for k, ep in aws_vpc_endpoint.interface : k => ep.id }
+}
+
+output "vpc_endpoints_security_group_id" {
+  description = "ID of the security group attached to the interface VPC endpoints (null when none created)"
+  value       = try(aws_security_group.vpc_endpoints[0].id, null)
 }

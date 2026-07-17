@@ -128,33 +128,35 @@ Module outputs include `vpc_id`, `vpc_cidr_block`, `public_subnet_ids`,
 ## Variables
 
 <!-- BEGIN_TF_DOCS -->
-
 ## Inputs
 
-| Name                                                                                          | Description                                   | Type          | Default                                                                                                       | Required |
-| --------------------------------------------------------------------------------------------- | --------------------------------------------- | ------------- | ------------------------------------------------------------------------------------------------------------- | :------: |
-| <a name="input_aws_region"></a> [aws_region](#input_aws_region)                               | AWS region to deploy resources                | `string`      | `"us-east-1"`                                                                                                 |    no    |
-| <a name="input_private_subnet_count"></a> [private_subnet_count](#input_private_subnet_count) | Number of private subnets to create           | `number`      | `2`                                                                                                           |    no    |
-| <a name="input_project_name"></a> [project_name](#input_project_name)                         | Name of the project, used for resource naming | `string`      | `"network-basic"`                                                                                             |    no    |
-| <a name="input_public_subnet_count"></a> [public_subnet_count](#input_public_subnet_count)    | Number of public subnets to create            | `number`      | `2`                                                                                                           |    no    |
-| <a name="input_tags"></a> [tags](#input_tags)                                                 | A map of tags to assign to the resources. The `project` tag is added automatically from `project_name`.      | `map(string)` | <pre>{<br/> "environment": "dev",<br/> "managed-by": "terraform"<br/>}</pre> |    no    |
-| <a name="input_vpc_cidr"></a> [vpc_cidr](#input_vpc_cidr)                                     | CIDR block for the VPC                        | `string`      | `"10.0.0.0/16"`                                                                                               |    no    |
+| Name | Description | Type | Default | Required |
+| ---- | ----------- | ---- | ------- | :------: |
+| <a name="input_aws_region"></a> [aws\_region](#input\_aws\_region) | AWS region to deploy resources | `string` | `"us-east-1"` | no |
+| <a name="input_create_gateway_endpoints"></a> [create\_gateway\_endpoints](#input\_create\_gateway\_endpoints) | Create the S3 and DynamoDB Gateway VPC endpoints on the private route table. Set to false to skip them. | `bool` | `true` | no |
+| <a name="input_interface_vpc_endpoints"></a> [interface\_vpc\_endpoints](#input\_interface\_vpc\_endpoints) | Service short names for Interface VPC endpoints created in the private subnets (e.g. ec2, ssm). Set to [] to create none. | `list(string)` | <pre>[<br/>  "ec2",<br/>  "ssmmessages",<br/>  "ec2messages",<br/>  "ssm"<br/>]</pre> | no |
+| <a name="input_private_subnet_count"></a> [private\_subnet\_count](#input\_private\_subnet\_count) | Number of private subnets to create | `number` | `2` | no |
+| <a name="input_project_name"></a> [project\_name](#input\_project\_name) | Name of the project, used for resource naming | `string` | `"network-basic"` | no |
+| <a name="input_public_subnet_count"></a> [public\_subnet\_count](#input\_public\_subnet\_count) | Number of public subnets to create | `number` | `2` | no |
+| <a name="input_tags"></a> [tags](#input\_tags) | A map of tags to assign to the resources. The `project` tag is added automatically from `project_name`. | `map(string)` | <pre>{<br/>  "environment": "dev",<br/>  "managed-by": "terraform"<br/>}</pre> | no |
+| <a name="input_vpc_cidr"></a> [vpc\_cidr](#input\_vpc\_cidr) | CIDR block for the VPC | `string` | `"10.0.0.0/16"` | no |
 
 ## Outputs
 
 | Name | Description |
-|------|-------------|
-| <a name="output_vpc_id"></a> [vpc_id](#output_vpc_id) | ID of the VPC |
-| <a name="output_vpc_cidr_block"></a> [vpc_cidr_block](#output_vpc_cidr_block) | CIDR block of the VPC |
-| <a name="output_public_subnet_ids"></a> [public_subnet_ids](#output_public_subnet_ids) | IDs of the public subnets |
-| <a name="output_private_subnet_ids"></a> [private_subnet_ids](#output_private_subnet_ids) | IDs of the private subnets |
-| <a name="output_public_route_table_id"></a> [public_route_table_id](#output_public_route_table_id) | ID of the public route table |
-| <a name="output_private_route_table_id"></a> [private_route_table_id](#output_private_route_table_id) | ID of the private route table |
-| <a name="output_internet_gateway_id"></a> [internet_gateway_id](#output_internet_gateway_id) | ID of the Internet Gateway |
-| <a name="output_nat_gateway_id"></a> [nat_gateway_id](#output_nat_gateway_id) | ID of the regional NAT Gateway |
-| <a name="output_s3_vpc_endpoint_id"></a> [s3_vpc_endpoint_id](#output_s3_vpc_endpoint_id) | ID of the S3 gateway VPC endpoint |
-| <a name="output_dynamodb_vpc_endpoint_id"></a> [dynamodb_vpc_endpoint_id](#output_dynamodb_vpc_endpoint_id) | ID of the DynamoDB gateway VPC endpoint |
-
+| ---- | ----------- |
+| <a name="output_dynamodb_vpc_endpoint_id"></a> [dynamodb\_vpc\_endpoint\_id](#output\_dynamodb\_vpc\_endpoint\_id) | ID of the DynamoDB gateway VPC endpoint |
+| <a name="output_interface_vpc_endpoint_ids"></a> [interface\_vpc\_endpoint\_ids](#output\_interface\_vpc\_endpoint\_ids) | Map of service short name to Interface VPC endpoint ID |
+| <a name="output_internet_gateway_id"></a> [internet\_gateway\_id](#output\_internet\_gateway\_id) | ID of the Internet Gateway |
+| <a name="output_nat_gateway_id"></a> [nat\_gateway\_id](#output\_nat\_gateway\_id) | ID of the regional NAT Gateway |
+| <a name="output_private_route_table_id"></a> [private\_route\_table\_id](#output\_private\_route\_table\_id) | ID of the private route table |
+| <a name="output_private_subnet_ids"></a> [private\_subnet\_ids](#output\_private\_subnet\_ids) | IDs of the private subnets |
+| <a name="output_public_route_table_id"></a> [public\_route\_table\_id](#output\_public\_route\_table\_id) | ID of the public route table |
+| <a name="output_public_subnet_ids"></a> [public\_subnet\_ids](#output\_public\_subnet\_ids) | IDs of the public subnets |
+| <a name="output_s3_vpc_endpoint_id"></a> [s3\_vpc\_endpoint\_id](#output\_s3\_vpc\_endpoint\_id) | ID of the S3 gateway VPC endpoint |
+| <a name="output_vpc_cidr_block"></a> [vpc\_cidr\_block](#output\_vpc\_cidr\_block) | CIDR block of the VPC |
+| <a name="output_vpc_endpoints_security_group_id"></a> [vpc\_endpoints\_security\_group\_id](#output\_vpc\_endpoints\_security\_group\_id) | ID of the security group attached to the interface VPC endpoints |
+| <a name="output_vpc_id"></a> [vpc\_id](#output\_vpc\_id) | ID of the VPC |
 <!-- END_TF_DOCS -->
 
 To override any of these variables, you can either:
